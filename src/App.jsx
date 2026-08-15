@@ -171,7 +171,7 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <img src="/src/public/isotipo-tono-transparente.png" alt="Tono" width={36} height={36} />
+              <img src="/isotipo-tono-transparente.png"alt="Tono" width={36} height={36} />
               <p style={{ fontFamily:fontMono, fontSize: 28, color: T.texto, letterSpacing: 1, margin: 0 }}>
                 TONO
               </p>
@@ -258,7 +258,7 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
         {error && <p style={{ color: "#E06A5A", fontSize: 12 }}>{error}</p>}
 
         <p style={{ fontFamily: fontMono, fontSize: 10, color: T.textoSuave, marginTop: "auto" }}>
-          v5 · powered by Claude
+          v5 · powered by Gemini
         </p>
       </aside>
 
