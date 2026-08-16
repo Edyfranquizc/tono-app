@@ -139,7 +139,7 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <img src="/isotipo-tono-transparente.png" alt="Tono" width={36} height={36} />
+                <img src="/isotipo-tono-final.png" alt="Tono" width={36} height={36} />
                 <p style={{ fontFamily:fontMono, fontSize: 28, color: T.texto, letterSpacing: 1, margin: 0 }}>
                   TONO
                 </p>
