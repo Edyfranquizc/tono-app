@@ -38,6 +38,27 @@ function getTheme(isDark) {
       };
 }
 
+// Logo como SVG en vivo, con TODOS los colores fijos (no toman nada del
+// tema T) — así el logo se ve exactamente igual en modo día y modo noche.
+function IsotipoLogo({ size = 36 }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="none">
+      <path
+        d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"
+        stroke="#28211C"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        fill="none"
+      />
+      <circle cx="6.5" cy="11.5" r="1.6" fill="#1A1AA7" />
+      <circle cx="9.5" cy="7.5" r="1.6" fill="#FFA142" />
+      <circle cx="14.5" cy="7.5" r="1.6" fill="#E3F40C" />
+      <circle cx="17.5" cy="11.5" r="1.6" fill="#28211C" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [isDark, setIsDark] = useState(false);
   const T = useMemo(() => getTheme(isDark), [isDark]);
@@ -139,7 +160,7 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <img src="/isotipo-tono-final.png" alt="Tono" width={36} height={36} />
+                <IsotipoLogo size={36} />
                 <p style={{ fontFamily:fontMono, fontSize: 28, color: T.texto, letterSpacing: 1, margin: 0 }}>
                   TONO
                 </p>
