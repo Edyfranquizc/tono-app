@@ -1,28 +1,83 @@
-# Tono
+<div align="center">
 
-Generador de identidad de marca con IA. "Tú tienes la idea. Nosotros encontramos su identidad."
+# 🎨 TONO
 
-## Correr en local
+### *"Tú tienes la idea. Nosotros encontramos su identidad."*
+
+Generador de identidad de marca con IA — de una simple descripción a un branding completo, en segundos.
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-Build-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Groq](https://img.shields.io/badge/Groq-Llama_3.3-F55036?logo=groq&logoColor=white)](https://groq.com)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
+[![License](https://img.shields.io/badge/License-Free_to_use-lightgrey)](#-licencia)
+
+</div>
+
+---
+
+## ✨ ¿Qué hace?
+
+Describís tu negocio en una frase, elegís rubro y estilo, y TONO te devuelve una identidad de marca lista para presentar:
+
+| 🏷️ Nombre y slogan | 🎨 Paleta de colores | 🔤 Tipografía |
+|---|---|---|
+| 🖼️ Concepto de logo | 🗣️ Tono de voz | 📐 Guía de aplicación |
+
+Pensado para **freelancers, emprendedores y estudiantes** que necesitan arrancar un proyecto con una identidad sólida — sin pagar un estudio de diseño.
+
+---
+
+## 🧩 Stack
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | React + Vite |
+| IA | Groq API (Llama 3.3 70B) |
+| Hosting | Vercel (serverless functions) |
+
+---
+
+## 🚀 Correr en local
 
 ```bash
 npm install
 npm run dev
 ```
 
-La app llama a `/api/generate`, que es una función serverless — para que funcione en
-local necesitás el CLI de Vercel (`npm i -g vercel` y luego `vercel dev`), o desplegar
-directo (ver abajo).
+La app llama a `/api/generate`, una función serverless. Para probarla en local necesitás el CLI de Vercel:
 
-## Subir a GitHub
+```bash
+npm i -g vercel
+vercel dev
+```
+
+O saltar directo a producción — ver más abajo. ⬇️
+
+---
+
+## 🔑 Variables de entorno
+
+Creá un archivo `.env` en la raíz:
+
+```env
+GROQ_API_KEY=tu_key_aquí
+```
+
+Conseguí tu key **gratis, sin tarjeta**, en [console.groq.com/keys](https://console.groq.com/keys).
+
+---
+
+## 📦 Subir a GitHub
 
 ```bash
 git init
 git add .
-git commit -m "Primera versión de Tono"
+git commit -m "Primera versión de TONO"
 gh repo create tono --public --source=. --push
 ```
 
-(Si no tenés `gh` instalado, creá el repo manualmente en github.com y después:)
+¿No tenés `gh` instalado? Creá el repo manualmente en [github.com/new](https://github.com/new) y después:
 
 ```bash
 git remote add origin https://github.com/TU_USUARIO/tono.git
@@ -30,16 +85,34 @@ git branch -M main
 git push -u origin main
 ```
 
-## Deployar en Vercel
+---
 
-1. Entrá a https://vercel.com → **Add New Project** → importá el repo `tono` de GitHub.
-2. Antes de dar deploy, andá a **Environment Variables** y agregá:
-   - `ANTHROPIC_API_KEY` = tu key de https://console.anthropic.com
+## ☁️ Deployar en Vercel
+
+1. Entrá a [vercel.com](https://vercel.com) → **Add New Project** → importá el repo `tono`.
+2. Antes de deployar, andá a **Settings → Environment Variables** y agregá:
+```
+GROQ_API_KEY = tu key de Groq
+
 3. Dale a **Deploy**. Vercel detecta Vite automáticamente.
-4. Cada vez que hagas `git push`, Vercel redeploya solo.
+4. Cada `git push` a `main` redeploya solo. 🔁
 
-## ¿Necesita login/registro de usuarios?
+---
 
-No. Tal como está armada, cualquiera que entre a la URL puede usarla directo, sin
-crear cuenta. Si más adelante querés limitar quién genera marcas (por costo de API,
-por ejemplo), se puede agregar un login simple — pero no es necesario para lanzarla.
+## 🔐 ¿Necesita login o registro?
+
+**No.** Cualquiera que entre a la URL genera su identidad de marca directo, sin crear cuenta.
+
+> Si más adelante querés limitar el uso (por volumen de requests a la API), se puede sumar un límite por IP o un registro simple — pero no hace falta para lanzar.
+
+---
+
+## 📄 Licencia
+
+<div align="center">
+
+Proyecto de uso libre para fines de aprendizaje y portfolio.
+
+**Hecho con 🧡 y mucho café**
+
+</div>
