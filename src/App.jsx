@@ -10,58 +10,139 @@ const fontBody = "'Space Grotesk', sans-serif";
 const fontMono = "'JetBrains Mono', monospace";
 
 const RUBROS = [
-  "Comida", "Moda", "Tecnología", "Belleza", "Servicios", "Arte/Diseño",
-  "Fitness/Salud", "Educación", "Mascotas", "Hogar/Decoración", "Turismo/Viajes", "Finanzas",
+  "Comida",
+  "Moda",
+  "Tecnología",
+  "Belleza",
+  "Servicios",
+  "Arte/Diseño",
+  "Fitness/Salud",
+  "Educación",
+  "Mascotas",
+  "Hogar/Decoración",
+  "Turismo/Viajes",
+  "Finanzas",
 ];
 
-const ESTILOS = ["Divertido", "Elegante", "Minimalista", "Rebelde", "Artesanal"];
+const ESTILOS = [
+  "Divertido",
+  "Elegante",
+  "Minimalista",
+  "Rebelde",
+  "Artesanal",
+];
 
 const responsiveStyles = `
   @media (max-width: 768px) {
-    .tono-container { flex-direction: column; }
-    .tono-sidebar { width: 100% !important; box-sizing: border-box; }
-    .tono-grid { grid-template-columns: 1fr !important; }
+    .tono-container {
+      flex-direction: column;
+    }
+
+    .tono-sidebar {
+      width: 100% !important;
+      box-sizing: border-box;
+    }
+
+    .tono-grid {
+      grid-template-columns: 1fr !important;
+    }
   }
 `;
 
 function getTheme(isDark) {
   return isDark
     ? {
-        bg: "#1B1613", card: "#241E19", texto: "#F7F6F2", textoSuave: "#B4AA9E",
-        linea: "#3A322B", azul: "#5B6BFF", azulSuave: "#2A2A55",
-        naranja: "#FFA142", naranjaSuave: "#3A2C1A", amarillo: "#E3F40C",
+        bg: "#1B1613",
+        card: "#241E19",
+        texto: "#F7F6F2",
+        textoSuave: "#B4AA9E",
+        linea: "#3A322B",
+        azul: "#5B6BFF",
+        azulSuave: "#2A2A55",
+        naranja: "#FFA142",
+        naranjaSuave: "#3A2C1A",
+        amarillo: "#E3F40C",
       }
     : {
-        bg: "#F7F6F2", card: "#FFFFFF", texto: "#28211C", textoSuave: "#6E655B",
-        linea: "#E4E2DA", azul: "#1A1AA7", azulSuave: "#E9E9FA",
-        naranja: "#FFA142", naranjaSuave: "#FFF1E0", amarillo: "#E3F40C",
+        bg: "#F7F6F2",
+        card: "#FFFFFF",
+        texto: "#28211C",
+        textoSuave: "#6E655B",
+        linea: "#E4E2DA",
+        azul: "#1A1AA7",
+        azulSuave: "#E9E9FA",
+        naranja: "#FFA142",
+        naranjaSuave: "#FFF1E0",
+        amarillo: "#E3F40C",
       };
 }
 
-// Logo como SVG en vivo, con TODOS los colores fijos (no toman nada del
-// tema T) — así el logo se ve exactamente igual en modo día y modo noche.
-function IsotipoLogo({ size = 36 }) {
+// ============================================================
+// LOGO
+// El color principal utiliza el color del tema.
+// En modo claro: #28211C
+// En modo oscuro: #F7F6F2
+// ============================================================
+
+function IsotipoLogo({ size = 36, color }) {
   return (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="none">
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+    >
       <path
         d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"
-        stroke="#28211C"
+        stroke={color}
         strokeWidth="1.6"
         strokeLinejoin="round"
         strokeLinecap="round"
         fill="none"
       />
-      <circle cx="6.5" cy="11.5" r="1.6" fill="#1A1AA7" />
-      <circle cx="9.5" cy="7.5" r="1.6" fill="#FFA142" />
-      <circle cx="14.5" cy="7.5" r="1.6" fill="#E3F40C" />
-      <circle cx="17.5" cy="11.5" r="1.6" fill="#28211C" />
+
+      <circle
+        cx="6.5"
+        cy="11.5"
+        r="1.6"
+        fill="#1A1AA7"
+      />
+
+      <circle
+        cx="9.5"
+        cy="7.5"
+        r="1.6"
+        fill="#FFA142"
+      />
+
+      <circle
+        cx="14.5"
+        cy="7.5"
+        r="1.6"
+        fill="#E3F40C"
+      />
+
+      <circle
+        cx="17.5"
+        cy="11.5"
+        r="1.6"
+        fill={color}
+      />
     </svg>
   );
 }
 
+// ============================================================
+// APP
+// ============================================================
+
 export default function App() {
   const [isDark, setIsDark] = useState(false);
-  const T = useMemo(() => getTheme(isDark), [isDark]);
+
+  const T = useMemo(
+    () => getTheme(isDark),
+    [isDark]
+  );
 
   const [descripcion, setDescripcion] = useState("");
   const [rubro, setRubro] = useState("Comida");
@@ -70,11 +151,18 @@ export default function App() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
 
+  // ==========================================================
+  // GENERAR MARCA
+  // ==========================================================
+
   async function generarMarca() {
     if (!descripcion.trim()) {
-      setError("Describí tu negocio para poder generar la marca 👀");
+      setError(
+        "Describí tu negocio para poder generar la marca 👀"
+      );
       return;
     }
+
     setCargando(true);
     setError(null);
     setResultado(null);
@@ -113,7 +201,9 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ prompt }),
       });
 
@@ -126,225 +216,725 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
       }
 
       const data = await response.json();
+
       const textoPlano = data.content
         .filter((b) => b.type === "text")
         .map((b) => b.text)
         .join("");
-      const limpio = textoPlano.replace(/```json|```/g, "").trim();
+
+      const limpio = textoPlano
+        .replace(/```json|```/g, "")
+        .trim();
+
       setResultado(JSON.parse(limpio));
     } catch (err) {
       console.error("Error generando marca:", err);
-      setError(err.message || "Algo falló generando tu marca. Probá de nuevo.");
+
+      setError(
+        err.message ||
+          "Algo falló generando tu marca. Probá de nuevo."
+      );
     } finally {
       setCargando(false);
     }
   }
 
+  // ==========================================================
+  // RENDER
+  // ==========================================================
+
   return (
     <>
       <style>{responsiveStyles}</style>
-      <div className="tono-container" style={{ display: "flex", minHeight: "100vh", fontFamily: fontBody, background: T.bg, transition: "background 0.2s" }}>
+
+      <div
+        className="tono-container"
+        style={{
+          display: "flex",
+          minHeight: "100vh",
+          fontFamily: fontBody,
+          background: T.bg,
+          transition: "background 0.2s",
+        }}
+      >
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,900;1,600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
         />
 
+        {/* ====================================================
+            SIDEBAR
+        ==================================================== */}
+
         <aside
           className="tono-sidebar"
           style={{
-            width: 300, background: T.bg, borderRight: `1px solid ${T.linea}`,
-            color: T.texto, padding: "24px 20px", display: "flex",
-            flexDirection: "column", gap: 18, flexShrink: 0,
+            width: 300,
+            background: T.bg,
+            borderRight: `1px solid ${T.linea}`,
+            color: T.texto,
+            padding: "24px 20px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+            flexShrink: 0,
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          {/* HEADER */}
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <IsotipoLogo size={36} />
-                <p style={{ fontFamily:fontMono, fontSize: 28, color: T.texto, letterSpacing: 1, margin: 0 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                {/* =================================================
+                    LOGO CORREGIDO
+                ================================================= */}
+
+                <IsotipoLogo
+                  size={36}
+                  color={T.texto}
+                />
+
+                <p
+                  style={{
+                    fontFamily: fontMono,
+                    fontSize: 28,
+                    color: T.texto,
+                    letterSpacing: 1,
+                    margin: 0,
+                  }}
+                >
                   TONO
                 </p>
               </div>
-              <h1 style={{ fontFamily: fontDisplay, fontSize: 18, margin: "4px 0 2px", color: T.texto }}>
+
+              <h1
+                style={{
+                  fontFamily: fontDisplay,
+                  fontSize: 18,
+                  margin: "4px 0 2px",
+                  color: T.texto,
+                }}
+              >
                 Tú tienes la idea.
               </h1>
-              <p style={{ fontSize: 14, color: T.textoSuave, margin: 0 }}>
+
+              <p
+                style={{
+                  fontSize: 14,
+                  color: T.textoSuave,
+                  margin: 0,
+                }}
+              >
                 Nosotros encontramos su identidad.
               </p>
             </div>
 
+            {/* BOTÓN TEMA */}
+
             <button
               onClick={() => setIsDark(!isDark)}
-              title={isDark ? "Cambiar a modo día" : "Cambiar a modo noche"}
+              title={
+                isDark
+                  ? "Cambiar a modo día"
+                  : "Cambiar a modo noche"
+              }
               style={{
-                flexShrink: 0, width: 36, height: 36, borderRadius: "50%",
-                border: `1px solid ${T.linea}`, background: T.card, color: T.texto,
-                cursor: "pointer", fontSize: 16, display: "flex",
-                alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: `1px solid ${T.linea}`,
+                background: T.card,
+                color: T.texto,
+                cursor: "pointer",
+                fontSize: 16,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               {isDark ? "☀️" : "🌙"}
             </button>
           </div>
 
+          {/* ====================================================
+              DESCRIPCIÓN
+          ==================================================== */}
+
           <div>
-            <label style={labelStyle(T)}>Describí tu negocio</label>
+            <label style={labelStyle(T)}>
+              Describí tu negocio
+            </label>
+
             <textarea
               value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
+              onChange={(e) =>
+                setDescripcion(e.target.value)
+              }
               placeholder="Ej: vendo velas artesanales con aromas de plantas nativas..."
               rows={4}
               style={inputStyle(T)}
             />
           </div>
 
+          {/* ====================================================
+              RUBRO
+          ==================================================== */}
+
           <div>
-            <label style={labelStyle(T)}>Rubro</label>
-            <select value={rubro} onChange={(e) => setRubro(e.target.value)} style={inputStyle(T)}>
-              {RUBROS.map((r) => (<option key={r}>{r}</option>))}
+            <label style={labelStyle(T)}>
+              Rubro
+            </label>
+
+            <select
+              value={rubro}
+              onChange={(e) =>
+                setRubro(e.target.value)
+              }
+              style={inputStyle(T)}
+            >
+              {RUBROS.map((r) => (
+                <option key={r}>{r}</option>
+              ))}
             </select>
           </div>
 
+          {/* ====================================================
+              ESTILO
+          ==================================================== */}
+
           <div>
-            <label style={labelStyle(T)}>Estilo</label>
-            <select value={estilo} onChange={(e) => setEstilo(e.target.value)} style={inputStyle(T)}>
-              {ESTILOS.map((s) => (<option key={s}>{s}</option>))}
+            <label style={labelStyle(T)}>
+              Estilo
+            </label>
+
+            <select
+              value={estilo}
+              onChange={(e) =>
+                setEstilo(e.target.value)
+              }
+              style={inputStyle(T)}
+            >
+              {ESTILOS.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
             </select>
           </div>
+
+          {/* ====================================================
+              BOTÓN GENERAR
+          ==================================================== */}
 
           <button
             onClick={generarMarca}
             disabled={cargando}
             style={{
-              fontFamily: fontDisplay, fontWeight: 700, fontSize: 15, padding: "12px 16px",
-              background: cargando ? T.textoSuave : T.azul, color: "#fff",
-              border: "none", borderRadius: 6, cursor: cargando ? "default" : "pointer", marginTop: 4,
+              fontFamily: fontDisplay,
+              fontWeight: 700,
+              fontSize: 15,
+              padding: "12px 16px",
+              background: cargando
+                ? T.textoSuave
+                : T.azul,
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              cursor: cargando
+                ? "default"
+                : "pointer",
+              marginTop: 4,
             }}
           >
-            {cargando ? "Encontrando tu tono..." : "Encontrar identidad →"}
+            {cargando
+              ? "Encontrando tu tono..."
+              : "Encontrar identidad →"}
           </button>
 
-          {error && <p style={{ color: "#E06A5A", fontSize: 12 }}>{error}</p>}
+          {/* ERROR */}
 
-          <p style={{ fontFamily: fontMono, fontSize: 10, color: T.textoSuave, marginTop: "auto" }}>
+          {error && (
+            <p
+              style={{
+                color: "#E06A5A",
+                fontSize: 12,
+              }}
+            >
+              {error}
+            </p>
+          )}
+
+          {/* FOOTER */}
+
+          <p
+            style={{
+              fontFamily: fontMono,
+              fontSize: 10,
+              color: T.textoSuave,
+              marginTop: "auto",
+            }}
+          >
             v5 · powered by Groq
           </p>
         </aside>
 
-        <main style={{ flex: 1, padding: "40px", overflowY: "auto" }}>
+        {/* ====================================================
+            MAIN
+        ==================================================== */}
+
+        <main
+          style={{
+            flex: 1,
+            padding: "40px",
+            overflowY: "auto",
+          }}
+        >
+          {/* ==================================================
+              ESTADO INICIAL
+          ================================================== */}
+
           {!resultado && !cargando && (
-            <div style={{ textAlign: "center", marginTop: "18vh", color: T.textoSuave }}>
-              <p style={{ fontFamily: fontMono, fontSize: 13 }}>
-                Completá el panel de la izquierda para encontrar tu tono.
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "18vh",
+                color: T.textoSuave,
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: fontMono,
+                  fontSize: 13,
+                }}
+              >
+                Completá el panel de la izquierda
+                para encontrar tu tono.
               </p>
             </div>
           )}
 
+          {/* ==================================================
+              CARGANDO
+          ================================================== */}
+
           {cargando && (
-            <div style={{ textAlign: "center", marginTop: "18vh", color: T.azul, fontFamily: fontMono }}>
+            <div
+              style={{
+                textAlign: "center",
+                marginTop: "18vh",
+                color: T.azul,
+                fontFamily: fontMono,
+              }}
+            >
               Diseñando tu marca...
             </div>
           )}
 
+          {/* ==================================================
+              RESULTADO
+          ================================================== */}
+
           {resultado && (
             <div
               className="tono-grid"
-              style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}
+              style={{
+                maxWidth: 1000,
+                margin: "0 auto",
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(4, 1fr)",
+                gap: 16,
+              }}
             >
+              {/* NOMBRE Y CONCEPTO */}
+
               <Card span={4} theme={T}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <TagMono theme={T}>NOMBRE Y CONCEPTO</TagMono>
-                  <span style={{ fontFamily: fontMono, fontSize: 10, background: T.naranja, color: "#28211C", padding: "2px 8px", borderRadius: 20 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <TagMono theme={T}>
+                    NOMBRE Y CONCEPTO
+                  </TagMono>
+
+                  <span
+                    style={{
+                      fontFamily: fontMono,
+                      fontSize: 10,
+                      background: T.naranja,
+                      color: "#28211C",
+                      padding: "2px 8px",
+                      borderRadius: 20,
+                    }}
+                  >
                     NUEVO
                   </span>
                 </div>
-                <h2 style={{ fontFamily: fontDisplay, fontSize: 44, fontWeight: 900, margin: "6px 0", color: T.texto }}>
+
+                <h2
+                  style={{
+                    fontFamily: fontDisplay,
+                    fontSize: 44,
+                    fontWeight: 900,
+                    margin: "6px 0",
+                    color: T.texto,
+                  }}
+                >
                   {resultado.nombre}
                 </h2>
-                <p style={{ fontStyle: "italic", fontSize: 17, color: T.textoSuave }}>"{resultado.slogan}"</p>
+
+                <p
+                  style={{
+                    fontStyle: "italic",
+                    fontSize: 17,
+                    color: T.textoSuave,
+                  }}
+                >
+                  "{resultado.slogan}"
+                </p>
               </Card>
 
+              {/* PROPÓSITO */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T}>PROPÓSITO</TagMono>
-                <p style={{ fontSize: 14, marginTop: 8, color: T.texto }}>{resultado.proposito}</p>
+                <TagMono theme={T}>
+                  PROPÓSITO
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.proposito}
+                </p>
               </Card>
+
+              {/* PERSONALIDAD */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T}>PERSONALIDAD DE MARCA</TagMono>
-                <p style={{ fontSize: 14, marginTop: 8, color: T.texto }}>{resultado.personalidad}</p>
+                <TagMono theme={T}>
+                  PERSONALIDAD DE MARCA
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.personalidad}
+                </p>
               </Card>
+
+              {/* PALETA */}
 
               <Card span={3} theme={T}>
-                <TagMono theme={T}>PALETA</TagMono>
-                <div style={{ display: "flex", gap: 12, marginTop: 10, flexWrap: "wrap" }}>
+                <TagMono theme={T}>
+                  PALETA
+                </TagMono>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 12,
+                    marginTop: 10,
+                    flexWrap: "wrap",
+                  }}
+                >
                   {resultado.paleta.map((c) => (
-                    <div key={c.hex} style={{ textAlign: "center" }}>
-                      <div style={{ width: 52, height: 52, background: c.hex, borderRadius: 8, border: `1px solid ${T.linea}` }} />
-                      <p style={{ fontSize: 11, marginTop: 6, color: T.texto }}>{c.nombre}</p>
-                      <p style={{ fontFamily: fontMono, fontSize: 10, color: T.textoSuave }}>{c.hex}</p>
+                    <div
+                      key={c.hex}
+                      style={{
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 52,
+                          height: 52,
+                          background: c.hex,
+                          borderRadius: 8,
+                          border: `1px solid ${T.linea}`,
+                        }}
+                      />
+
+                      <p
+                        style={{
+                          fontSize: 11,
+                          marginTop: 6,
+                          color: T.texto,
+                        }}
+                      >
+                        {c.nombre}
+                      </p>
+
+                      <p
+                        style={{
+                          fontFamily: fontMono,
+                          fontSize: 10,
+                          color: T.textoSuave,
+                        }}
+                      >
+                        {c.hex}
+                      </p>
                     </div>
                   ))}
                 </div>
               </Card>
+
+              {/* TIPOGRAFÍA */}
 
               <Card span={1} theme={T}>
-                <TagMono theme={T}>TIPOGRAFÍA</TagMono>
-                <p style={{ fontSize: 13, lineHeight: 1.5, marginTop: 8, color: T.texto }}>{resultado.tipografia}</p>
+                <TagMono theme={T}>
+                  TIPOGRAFÍA
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.5,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.tipografia}
+                </p>
               </Card>
 
+              {/* CONCEPTO DE LOGO */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T}>CONCEPTO DE LOGO</TagMono>
-                <p style={{ fontSize: 14, lineHeight: 1.6, marginTop: 10, color: T.texto }}>{resultado.concepto_logo}</p>
-                <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-                  {resultado.paleta.slice(0, 2).map((c) => (
-                    <div key={c.hex} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: 4, background: c.hex, border: `1px solid ${T.linea}` }} />
-                      <span style={{ fontSize: 12, color: T.textoSuave }}>{c.nombre}</span>
-                    </div>
-                  ))}
+                <TagMono theme={T}>
+                  CONCEPTO DE LOGO
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.6,
+                    marginTop: 10,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.concepto_logo}
+                </p>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    marginTop: 12,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {resultado.paleta
+                    .slice(0, 2)
+                    .map((c) => (
+                      <div
+                        key={c.hex}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 6,
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 4,
+                            background: c.hex,
+                            border: `1px solid ${T.linea}`,
+                          }}
+                        />
+
+                        <span
+                          style={{
+                            fontSize: 12,
+                            color: T.textoSuave,
+                          }}
+                        >
+                          {c.nombre}
+                        </span>
+                      </div>
+                    ))}
                 </div>
               </Card>
 
+              {/* EXPERIENCIA DE MARCA */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T}>EXPERIENCIA DE MARCA</TagMono>
-                <p style={{ fontSize: 14, lineHeight: 1.6, marginTop: 10, color: T.texto }}>{resultado.experiencia_de_marca}</p>
+                <TagMono theme={T}>
+                  EXPERIENCIA DE MARCA
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.6,
+                    marginTop: 10,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.experiencia_de_marca}
+                </p>
               </Card>
 
+              {/* TONO DE VOZ */}
+
               <Card span={3} theme={T}>
-                <TagMono theme={T}>TONO DE VOZ</TagMono>
-                <p style={{ fontSize: 14, marginTop: 10, color: T.texto }}>{resultado.tono_de_voz}</p>
-                <div style={{ marginTop: 12, padding: 14, background: T.azulSuave, borderRadius: 8, fontStyle: "italic", fontSize: 14, color: T.texto }}>
+                <TagMono theme={T}>
+                  TONO DE VOZ
+                </TagMono>
+
+                <p
+                  style={{
+                    fontSize: 14,
+                    marginTop: 10,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.tono_de_voz}
+                </p>
+
+                <div
+                  style={{
+                    marginTop: 12,
+                    padding: 14,
+                    background: T.azulSuave,
+                    borderRadius: 8,
+                    fontStyle: "italic",
+                    fontSize: 14,
+                    color: T.texto,
+                  }}
+                >
                   "{resultado.frase_ejemplo}"
                 </div>
               </Card>
 
+              {/* CANALES */}
+
               <Card span={1} theme={T}>
-                <TagMono theme={T}>CANALES</TagMono>
-                <ul style={{ fontSize: 12.5, lineHeight: 1.8, paddingLeft: 16, marginTop: 8, color: T.texto }}>
-                  {resultado.canales.map((c, i) => (<li key={i}>{c}</li>))}
+                <TagMono theme={T}>
+                  CANALES
+                </TagMono>
+
+                <ul
+                  style={{
+                    fontSize: 12.5,
+                    lineHeight: 1.8,
+                    paddingLeft: 16,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.canales.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
                 </ul>
               </Card>
 
+              {/* APLICACIONES */}
+
               <Card span={4} theme={T}>
-                <TagMono theme={T}>APLICACIONES SUGERIDAS</TagMono>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 10 }}>
-                  {resultado.aplicaciones.map((a, i) => (
-                    <div key={i} style={{ border: `1px dashed ${T.linea}`, borderRadius: 8, padding: 12, fontSize: 12.5, background: T.bg, color: T.texto }}>
-                      {a}
-                    </div>
-                  ))}
+                <TagMono theme={T}>
+                  APLICACIONES SUGERIDAS
+                </TagMono>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(3, 1fr)",
+                    gap: 10,
+                    marginTop: 10,
+                  }}
+                >
+                  {resultado.aplicaciones.map(
+                    (a, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          border: `1px dashed ${T.linea}`,
+                          borderRadius: 8,
+                          padding: 12,
+                          fontSize: 12.5,
+                          background: T.bg,
+                          color: T.texto,
+                        }}
+                      >
+                        {a}
+                      </div>
+                    )
+                  )}
                 </div>
               </Card>
 
+              {/* HACER */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T} style={{ color: T.azul }}>HACER</TagMono>
-                <ul style={{ fontSize: 13, lineHeight: 1.7, paddingLeft: 18, marginTop: 8, color: T.texto }}>
-                  {resultado.hacer.map((h, i) => (<li key={i}>{h}</li>))}
+                <TagMono
+                  theme={T}
+                  style={{ color: T.azul }}
+                >
+                  HACER
+                </TagMono>
+
+                <ul
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.7,
+                    paddingLeft: 18,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.hacer.map((h, i) => (
+                    <li key={i}>{h}</li>
+                  ))}
                 </ul>
               </Card>
+
+              {/* EVITAR */}
+
               <Card span={2} theme={T}>
-                <TagMono theme={T} style={{ color: T.naranja }}>EVITAR</TagMono>
-                <ul style={{ fontSize: 13, lineHeight: 1.7, paddingLeft: 18, marginTop: 8, color: T.texto }}>
-                  {resultado.evitar.map((e, i) => (<li key={i}>{e}</li>))}
+                <TagMono
+                  theme={T}
+                  style={{ color: T.naranja }}
+                >
+                  EVITAR
+                </TagMono>
+
+                <ul
+                  style={{
+                    fontSize: 13,
+                    lineHeight: 1.7,
+                    paddingLeft: 18,
+                    marginTop: 8,
+                    color: T.texto,
+                  }}
+                >
+                  {resultado.evitar.map((e, i) => (
+                    <li key={i}>{e}</li>
+                  ))}
                 </ul>
               </Card>
             </div>
@@ -355,29 +945,85 @@ La paleta y el concepto de logo deben ser específicos del rubro y el estilo (na
   );
 }
 
-function Card({ children, span = 1, theme }) {
+// ============================================================
+// CARD
+// ============================================================
+
+function Card({
+  children,
+  span = 1,
+  theme,
+}) {
   return (
-    <div style={{ gridColumn: `span ${span}`, background: theme.card, borderRadius: 14, padding: 22, border: `1px solid ${theme.linea}`, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
+    <div
+      style={{
+        gridColumn: `span ${span}`,
+        background: theme.card,
+        borderRadius: 14,
+        padding: 22,
+        border: `1px solid ${theme.linea}`,
+        boxShadow:
+          "0 1px 2px rgba(0,0,0,0.05)",
+      }}
+    >
       {children}
     </div>
   );
 }
 
-function TagMono({ children, style, theme }) {
+// ============================================================
+// TAG MONO
+// ============================================================
+
+function TagMono({
+  children,
+  style,
+  theme,
+}) {
   return (
-    <p style={{ fontFamily: fontMono, fontSize: 10.5, letterSpacing: 1.2, color: theme.textoSuave, textTransform: "uppercase", margin: 0, ...style }}>
+    <p
+      style={{
+        fontFamily: fontMono,
+        fontSize: 10.5,
+        letterSpacing: 1.2,
+        color: theme.textoSuave,
+        textTransform: "uppercase",
+        margin: 0,
+        ...style,
+      }}
+    >
       {children}
     </p>
   );
 }
 
+// ============================================================
+// LABEL
+// ============================================================
+
 const labelStyle = (T) => ({
-  display: "block", fontFamily: fontMono, fontSize: 10.5, letterSpacing: 1,
-  color: T.textoSuave, textTransform: "uppercase", marginBottom: 6,
+  display: "block",
+  fontFamily: fontMono,
+  fontSize: 10.5,
+  letterSpacing: 1,
+  color: T.textoSuave,
+  textTransform: "uppercase",
+  marginBottom: 6,
 });
 
+// ============================================================
+// INPUT
+// ============================================================
+
 const inputStyle = (T) => ({
-  width: "100%", fontFamily: fontBody, fontSize: 13.5, padding: 10, borderRadius: 6,
-  border: `1px solid ${T.linea}`, background: T.card, color: T.texto,
-  boxSizing: "border-box", resize: "vertical",
+  width: "100%",
+  fontFamily: fontBody,
+  fontSize: 13.5,
+  padding: 10,
+  borderRadius: 6,
+  border: `1px solid ${T.linea}`,
+  background: T.card,
+  color: T.texto,
+  boxSizing: "border-box",
+  resize: "vertical",
 });
