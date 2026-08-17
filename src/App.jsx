@@ -34,18 +34,10 @@ const ESTILOS = [
 
 const responsiveStyles = `
   @media (max-width: 768px) {
-    .tono-container {
-      flex-direction: column;
-    }
-
-    .tono-sidebar {
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-
-    .tono-grid {
-      grid-template-columns: 1fr !important;
-    }
+    .tono-container { flex-direction: column; }
+    .tono-sidebar { width: 100% !important; box-sizing: border-box; }
+    .tono-grid { grid-template-columns: 1fr !important; }
+    .tono-grid > div { grid-column: 1 / -1 !important; }
   }
 `;
 
