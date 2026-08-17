@@ -33,7 +33,7 @@ Pensado para **freelancers, emprendedores y estudiantes** que necesitan arrancar
 | Capa | Tecnología |
 |---|---|
 | Frontend | React + Vite |
-| IA | Groq API (Llama 3.3 70B) |
+| IA | Groq API (openai/gpt-oss-120b) |
 | Hosting | Vercel (serverless functions) |
 
 ---
